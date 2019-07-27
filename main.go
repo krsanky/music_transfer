@@ -7,7 +7,6 @@ import (
 
 	"nanomsg.org/go/mangos/v2"
 	"nanomsg.org/go/mangos/v2/protocol/rep"
-	"rsc.io/quote"
 )
 
 func die(format string, v ...interface{}) {
@@ -19,10 +18,35 @@ func date() string {
 	return time.Now().Format(time.ANSIC)
 }
 
-func main() {
-	fmt.Println(quote.Hello())
+func usage() {
+	fmt.Printf("usage....\n:")
 }
 
+func main() {
+	//for i, a := range os.Args[1:] {
+	//	fmt.Printf("%d:%s ", i, a)
+	//}
+
+	if len(os.Args) >= 2 {
+		switch arg1 := os.Args[1]; arg1 {
+		case "web":
+			//web()
+		case "db":
+			//dbstuff()
+		case "date":
+			fmt.Printf("date:%s\n", date())
+		default:
+			usage()
+		}
+	} else {
+		usage()
+	}
+}
+
+//url=tcp://127.0.0.1:40899
+//./reqrep node0 $url & node0=$! && sleep 1
+//./reqrep node1 $url
+//kill $node0
 func node0(url string) {
 	var sock mangos.Socket
 	var err error
@@ -47,8 +71,3 @@ func node0(url string) {
 		}
 	}
 }
-
-//url=tcp://127.0.0.1:40899
-//./reqrep node0 $url & node0=$! && sleep 1
-//./reqrep node1 $url
-//kill $node0
